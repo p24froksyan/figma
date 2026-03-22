@@ -1,0 +1,242 @@
+/* --- Змінні кольорів та шрифтів --- */
+:root {
+    --primary: #FDC435;      /* Жовтий акцент */
+    --text-dark: #25282B;    /* Темний текст */
+    --text-light: #828282;   /* Світлий текст опису */
+    --bg-outer: #2C2C2C;     /* Темно-сірий фон навколо картки */
+    --bg-card: #FFFFFF;      /* Білий фон картки */
+    
+    --font-serif: 'Playfair Display', serif; /* Шрифт заголовка */
+    --font-sans: 'Nunito', sans-serif;       /* Основний шрифт */
+}
+
+/* --- Базові налаштування --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-outer);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px; /* Відступи по краях екрану */
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- Головна картка --- */
+.card {
+    background-color: var(--bg-card);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden; /* Важливо: обрізає жовту хвилю, щоб вона не виходила за краї */
+    padding: 40px 80px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Жовта хвиля (CSS трюк) --- */
+.card-bg-shape {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    background-color: var(--primary);
+    /* Створюємо криволінійний зріз за допомогою специфічного border-radius */
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 300px 500px;
+    z-index: 0;
+}
+
+/* Піднімаємо текст і шапку над жовтим фоном */
+.header, .hero {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Шапка (Header) --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-dark);
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin-left: 32px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: var(--primary);
+}
+
+/* --- Головний екран (Hero) --- */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 40px;
+}
+
+.hero-content {
+    max-width: 480px;
+}
+
+.subtitle {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.hero-content h1 {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.hero-content p {
+    color: var(--text-light);
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+/* --- Кнопки --- */
+.buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.btn {
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--text-dark);
+}
+
+.btn-primary:hover {
+    background-color: #e5b02d; /* Трохи темніший жовтий при наведенні */
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-dark);
+    border-color: var(--text-dark);
+}
+
+.btn-outline:hover {
+    background-color: var(--text-dark);
+    color: var(--bg-card);
+}
+
+/* --- Зображення --- */
+.hero-image {
+    width: 45%;
+    display: flex;
+    justify-content: flex-end; /* Притискаємо фото вправо */
+}
+
+.profile-img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* =========================================
+   АДАПТИВНІСТЬ (Media Queries)
+   ========================================= */
+
+/* Планшети (до 1024px) */
+@media (max-width: 1024px) {
+    .card { padding: 40px; }
+    .hero-content h1 { font-size: 42px; }
+    .hero-image { width: 50%; }
+}
+
+/* Вертикальні планшети та великі телефони (до 768px) */
+@media (max-width: 768px) {
+    /* Змінюємо жовту хвилю для мобільних — тепер вона знизу */
+    .card-bg-shape {
+        width: 100%;
+        height: 45%;
+        top: auto;
+        bottom: 0;
+        border-top-left-radius: 200px 50px;
+        border-top-right-radius: 200px 50px;
+        border-bottom-left-radius: 0;
+    }
+
+    .hero {
+        flex-direction: column; /* Блоки йдуть один під одним */
+        text-align: center;
+    }
+
+    .hero-content { margin-bottom: 40px; }
+    .buttons { justify-content: center; }
+    
+    .hero-image { 
+        width: 80%; 
+        justify-content: center;
+    }
+}
+
+/* Мобільні телефони (до 480px) */
+@media (max-width: 480px) {
+    .card { padding: 30px 20px; }
+    
+    .header {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .nav a {
+        margin: 0 10px;
+        font-size: 14px;
+    }
+
+    .hero-content h1 { font-size: 36px; }
+    
+    .buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn { text-align: center; }
+}
